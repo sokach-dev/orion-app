@@ -1,47 +1,24 @@
 
 <template>
-  <div v-for="w in wordList" :key="w">
+  <div v-for="w in reviewWords" :key="w">
     <div>{{ w }}</div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted } from "vue";
+import { useWordStore } from "../store/word";
+import { storeToRefs } from "pinia";
 
 export default defineComponent({
   setup() {
-    const wordList = ref<string[]>([
-      "apple",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "banana",
-      "cat",
-      "dog",
-      "egg",
-    ]);
-    return { wordList };
+    const { reviewWords } = storeToRefs(useWordStore());
+
+    onMounted(() => {
+      useWordStore().init();
+    });
+
+    return { reviewWords };
   },
 });
 </script>

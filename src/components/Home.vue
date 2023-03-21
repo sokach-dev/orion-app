@@ -51,9 +51,9 @@
           Bill is a cat.
         </div>
       </a-layout-content> -->
-      <a-layout-footer style="text-align: center">
-        Ant Design ©2018 Created by Ant UED
-      </a-layout-footer>
+      <!-- <a-layout-footer style="text-align: center">
+        Orion ©2023 Created by Orion
+      </a-layout-footer> -->
     </a-layout>
   </a-layout>
 </template>
