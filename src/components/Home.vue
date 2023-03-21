@@ -14,7 +14,9 @@
               <span>单词</span>
             </span>
           </template>
-          <a-menu-item key="3">复习</a-menu-item>
+          <router-link to="word">
+            <a-menu-item key="3">复习</a-menu-item>
+          </router-link>
           <a-menu-item key="4">四级</a-menu-item>
           <a-menu-item key="5">六级</a-menu-item>
         </a-sub-menu>
@@ -25,25 +27,30 @@
               <span>故事</span>
             </span>
           </template>
-          <a-menu-item key="6">Openai故事</a-menu-item>
+          <router-link to="story">
+            <a-menu-item key="6">Openai故事</a-menu-item>
+          </router-link>
+
           <a-menu-item key="8">自己编故事</a-menu-item>
         </a-sub-menu>
-        <a-menu-item key="9">
-          <audio-outlined />
-          <span>听说</span>
-        </a-menu-item>
+        <router-link to="listen_spoken">
+          <a-menu-item key="9">
+            <audio-outlined />
+            <span>听说</span>
+          </a-menu-item>
+        </router-link>
       </a-menu>
     </a-layout-sider>
-    <word-list />
     <a-layout>
-      <a-layout-header style="background: #fff; padding: 0" />
+      <router-view></router-view>
+      <!-- <a-layout-header style="background: #fff; padding: 0" />
       <a-layout-content style="margin: 0 16px">
         <div
           :style="{ padding: '24px', background: '#fff', minHeight: '360px' }"
         >
           Bill is a cat.
         </div>
-      </a-layout-content>
+      </a-layout-content> -->
       <a-layout-footer style="text-align: center">
         Ant Design ©2018 Created by Ant UED
       </a-layout-footer>
