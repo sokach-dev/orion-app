@@ -1,7 +1,7 @@
 
 <template>
-  <div v-for="w in reviewWords" :key="w">
-    <div>{{ w }}</div>
+  <div v-for="w in reviewWords" :key="w.id">
+    <div>{{ w.word }}</div>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default defineComponent({
     const { reviewWords } = storeToRefs(useWordStore());
 
     onMounted(() => {
-      useWordStore().init();
+      useWordStore().getReviewWords();
     });
 
     return { reviewWords };

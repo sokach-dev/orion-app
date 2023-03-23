@@ -7,19 +7,14 @@
           <pie-chart-outlined />
           <span>统计</span>
         </a-menu-item>
-        <a-sub-menu key="sub1">
-          <template #title>
+        <router-link to="word">
+          <a-menu-item key="2">
             <span>
               <user-outlined />
               <span>单词</span>
             </span>
-          </template>
-          <router-link to="word">
-            <a-menu-item key="3">复习</a-menu-item>
-          </router-link>
-          <a-menu-item key="4">四级</a-menu-item>
-          <a-menu-item key="5">六级</a-menu-item>
-        </a-sub-menu>
+          </a-menu-item>
+        </router-link>
         <a-sub-menu key="sub2">
           <template #title>
             <span>
@@ -28,15 +23,21 @@
             </span>
           </template>
           <router-link to="story">
-            <a-menu-item key="6">Openai故事</a-menu-item>
+            <a-menu-item key="3">Openai故事</a-menu-item>
           </router-link>
 
-          <a-menu-item key="8">自己编故事</a-menu-item>
+          <a-menu-item key="4">自己编故事</a-menu-item>
         </a-sub-menu>
         <router-link to="listen_spoken">
-          <a-menu-item key="9">
+          <a-menu-item key="5">
             <audio-outlined />
             <span>听说</span>
+          </a-menu-item>
+        </router-link>
+        <router-link to="">
+          <a-menu-item key="6">
+            <setting-outlined />
+            <span>设置</span>
           </a-menu-item>
         </router-link>
       </a-menu>
@@ -65,6 +66,7 @@ import {
   UserOutlined,
   TeamOutlined,
   AudioOutlined,
+  SettingOutlined,
 } from "@ant-design/icons-vue";
 
 import { defineComponent, ref } from "vue";
@@ -78,6 +80,7 @@ export default defineComponent({
     UserOutlined,
     TeamOutlined,
     AudioOutlined,
+    SettingOutlined,
     WordList,
   },
 

@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { invoke } from "@tauri-apps/api";
 
 export const useWordStore = defineStore('word', {
     state: () => {
@@ -20,6 +21,13 @@ export const useWordStore = defineStore('word', {
     getters: {},
     // 用于封装业务逻辑，修改sate
     actions: {
+        async getReviewWords() {
+            console.log("-----getReviewWords");
+            invoke("get_review_words", { dt: "2023-03-25" }).then((res: any) => {
+                console.log("get_review_words", res);
+                this.reviewWords = res.data;
+            });
+        },
         // init用于初始化数据，比如从后端获取数据
         init() {
             this.$state.reviewWords = [
