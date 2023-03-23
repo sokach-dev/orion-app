@@ -10,9 +10,18 @@ export const useWordStore = defineStore('word', {
             date: Date;
             uuid: string;
         }
+        interface reviewWrod {
+            id: number;
+            word: string;
+            vocabulary_id: number;
+            word_list_id: number;
+            last_learned_at: string;
+            next_learn_at: string;
+            learn_status: number;
+        }
         return {
             // string array
-            reviewWords: [] as string[],
+            reviewWords: [] as reviewWrod[],
             // dialog array
             wordDialogs: [] as Dialog[],
         }
@@ -21,27 +30,14 @@ export const useWordStore = defineStore('word', {
     getters: {},
     // 用于封装业务逻辑，修改sate
     actions: {
-        async getReviewWords() {
-            console.log("-----getReviewWords");
-            invoke("get_review_words", { dt: "2023-03-25" }).then((res: any) => {
+        async getReviewWords(dt: string) {
+            invoke("get_review_words", { dt: dt }).then((res: any) => {
                 console.log("get_review_words", res);
                 this.reviewWords = res.data;
             });
         },
         // init用于初始化数据，比如从后端获取数据
         init() {
-            this.$state.reviewWords = [
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "hello", "world", "hel", "wor", "he",
-                "world"];
             this.$state.wordDialogs = [
                 {
                     id: 1,

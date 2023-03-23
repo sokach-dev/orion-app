@@ -42,15 +42,7 @@ impl DbConnection {
 
         let request = tonic::Request::new(QueryLearnWordRequest { query: Some(q) });
 
-        tracing::info!(
-            "get_review_words: {:?}, url: {}",
-            request,
-            self.rpc_service_url.clone()
-        );
-
         let mut conn = self.get_rpc_conn().await?;
-
-        tracing::info!("get conn");
 
         let response = conn.query_learn_word(request).await?.into_inner();
 

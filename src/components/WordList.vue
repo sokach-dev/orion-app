@@ -15,7 +15,8 @@ export default defineComponent({
     const { reviewWords } = storeToRefs(useWordStore());
 
     onMounted(() => {
-      useWordStore().getReviewWords();
+      let date = new Date().toISOString().slice(0, 10);
+      useWordStore().getReviewWords(date);
     });
 
     return { reviewWords };
