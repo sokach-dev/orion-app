@@ -11,10 +11,12 @@ async fn main() {
     utils::init_log();
 
     tauri::Builder::default()
-        .manage(model::DbConnection::new(None, None).await.unwrap())
+        .manage(model::DbConnection::new(None).await.unwrap())
         .invoke_handler(tauri::generate_handler![
             service::get_review_words,
-            service::hello
+            service::learn_word,
+            service::add_review_word,
+            service::get_dialog,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

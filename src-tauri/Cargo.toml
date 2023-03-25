@@ -11,25 +11,21 @@ edition = "2021"
 
 [build-dependencies]
 tauri-build = { version = "1.2", features = [] }
-tonic-build = "0.8.4"
 
 [dependencies]
-abi = { version = "0.1.0", git = "https://github.com/sokach-dev/orion-abi"}
 tauri = { version = "1.2", features = ["shell-open"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-prost = "0.11.8"
-prost-types = "0.11.8"
 thiserror = "1.0.40"
 chrono = { version = "0.4.24", features = ["serde"] }
 derive_builder = "0.12.0"
 to_sql_condition = "0.2.1"
-tonic = { version = "0.8.3", features = ["gzip"] }
 sqlx = { version = "0.6.3", features = ["runtime-tokio-rustls", "chrono", "sqlite"] }
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.16", features = ["local-time", "env-filter"] }
 tokio = { version = "1.26.0", features = ["full"] }
 time = { version = "0.3.20", features = ["macros"] }
+supermemo2 = "1.0.3"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

@@ -1,4 +1,5 @@
 use time::{macros::format_description, UtcOffset};
+use tracing::metadata::LevelFilter;
 use tracing_subscriber::{fmt::time::OffsetTime, EnvFilter};
 
 pub fn init_log() {
@@ -8,7 +9,11 @@ pub fn init_log() {
     );
     tracing_subscriber::fmt()
         .with_timer(local_time)
-        .with_env_filter(EnvFilter::builder().from_env_lossy())
+        .with_env_filter(
+            EnvFilter::builder()
+                .with_default_directive(LevelFilter::INFO.into())
+                .from_env_lossy(),
+        )
         .with_line_number(true)
         .with_file(true)
         .init();

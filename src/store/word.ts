@@ -14,10 +14,11 @@ export const useWordStore = defineStore('word', {
             id: number;
             word: string;
             vocabulary_id: number;
-            word_list_id: number;
+            paraphrase: string;
             last_learned_at: string;
             next_learn_at: string;
             learn_status: number;
+            show_paraphrase: boolean;
         }
         return {
             // string array
@@ -34,39 +35,156 @@ export const useWordStore = defineStore('word', {
             invoke("get_review_words", { dt: dt }).then((res: any) => {
                 console.log("get_review_words", res);
                 this.reviewWords = res.data;
+                this.reviewWords.forEach((item: any) => {
+                    item.show_paraphrase = false;
+                });
+            });
+        },
+        async changeShowParaphrase(id: number) {
+            this.reviewWords.forEach((item: any) => {
+                if (item.id == id) {
+                    item.show_paraphrase = !item.show_paraphrase;
+                }
+            });
+        },
+        async learnWord(word: any, status: number) {
+            invoke("learn_word", { id: word.id, count: word.learn_count, next: word.next_learn_at, status: status }).then((res: any) => {
+                console.log("learn_word", res);
+                if (res.status == "failed") {
+                    alert(res.msg);
+                }
+                this.getReviewWords(word.next_learn_at);
             });
         },
         // init用于初始化数据，比如从后端获取数据
         init() {
-            this.$state.wordDialogs = [
+            this.wordDialogs = [
                 {
                     id: 1,
-                    person: "me",
+                    person: "orion",
                     content: "hello",
-                    date: new Date("2021-01-01 00:00:00"),
-                    uuid: "1"
+                    date: new Date(),
+                    uuid: "123",
                 },
                 {
-                    id: 2,
+                    id: 1,
+                    person: "orio",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
                     person: "orion",
-                    content: "hi",
-                    date: new Date("2021-01-01 03:00:00"),
-                    uuid: "1"
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
                 },
                 {
-                    id: 3,
-                    person: "me",
-                    content: "nice to meet you",
-                    date: new Date("2021-01-01 04:00:00"),
-                    uuid: "1"
+                    id: 1,
+                    person: "orio",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
                 },
                 {
-                    id: 4,
+                    id: 1,
                     person: "orion",
-                    content: "nice to meet you too",
-                    date: new Date("2021-01-01 07:00:00"),
-                    uuid: "1"
-                }
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orio",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orio",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
+                {
+                    id: 1,
+                    person: "orion",
+                    content: "hello",
+                    date: new Date(),
+                    uuid: "123",
+                },
             ]
         }
     }

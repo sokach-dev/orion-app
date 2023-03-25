@@ -1,6 +1,7 @@
-use crate::model::learn_word::WrapLearnWordResponse;
-use crate::model::DbConnection;
-use chrono::{DateTime, Utc};
+use crate::model::{
+    data_scaffold::{dialog::Dialog, learn_word::LearnWord},
+    DbConnection,
+};
 use serde::{Deserialize, Serialize};
 use tauri::State;
 
@@ -37,7 +38,7 @@ pub fn wrap_failed_response<T>(msg: String, data: Option<T>) -> Result<Response<
 pub async fn get_review_words(
     conn: State<'_, DbConnection>,
     dt: String, // 2022-01-01
-) -> Result<Response<Vec<WrapLearnWordResponse>>, ()> {
+) -> Result<Response<Vec<LearnWord>>, ()> {
     match conn.get_review_words(dt).await {
         Ok(words) => wrap_success_response("success".to_string(), Some(words)),
         Err(e) => wrap_failed_response(e.to_string(), None),
@@ -45,6 +46,38 @@ pub async fn get_review_words(
 }
 
 #[tauri::command]
-pub async fn hello() -> String {
-    "hello".to_string()
+pub async fn add_review_word(
+    conn: State<'_, DbConnection>,
+    word: String,
+) -> Result<Response<()>, ()> {
+    match conn.add_review_word(word).await {
+        Ok(_) => wrap_success_response("success".to_string(), None),
+        Err(e) => wrap_failed_response(e.to_string(), None),
+    }
+}
+
+#[tauri::command]
+pub async fn get_dialog(
+    conn: State<'_, DbConnection>,
+    size: u32,
+    number: u32,
+) -> Result<Response<Vec<Dialog>>, ()> {
+    match conn.get_dialog(size, number).await {
+        Ok(dialogs) => wrap_success_response("success".to_string(), Some(dialogs)),
+        Err(e) => wrap_failed_response(e.to_string(), None),
+    }
+}
+
+#[tauri::command]
+pub async fn learn_word(
+    conn: State<'_, DbConnection>,
+    id: i64,      // word_id
+    count: i64,   // learn_count
+    next: String, // next_learn_at
+    status: u8,   // 0: 忘了, 1: 看答案了, 4: 记住了
+) -> Result<Response<()>, ()> {
+    match conn.learn_word(id, count, next, status).await {
+        Ok(_) => wrap_success_response("success".to_string(), None),
+        Err(e) => wrap_failed_response(e.to_string(), None),
+    }
 }

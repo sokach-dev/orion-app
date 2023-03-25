@@ -3,7 +3,7 @@
     <div class="word-list">
       <WordList />
     </div>
-    <div>
+    <div class="dialogue">
       <Dialogue />
     </div>
   </div>
@@ -26,15 +26,22 @@ export default defineComponent({
 </script>
 
 
-<style lang="sass" scoped>
-.word
-    display: flex
-    height: 100vh
-    width: 100vw
-    background-color: #f0f2e5
-.word-list
-    height: 100vh
-    width: 15vw
-    background-color: #f0f2a5
-    overflow-y: scroll
+<style lang="scss" scoped>
+.word {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: #f0f2e5;
+}
+.word-list {
+  height: 100vh;
+  width: 40%;
+  overflow-y: scroll;
+}
+.dialogue {
+  overflow-y: scroll;
+  height: 100vh;
+  width: 60%;
+  background-color: #f0f2e5;
+}
 </style>

@@ -1,3 +1,7 @@
+use crate::model::data_scaffold::{
+    learn_word::LearnWordQueryBuilderError, word_list::WordListQueryBuilderError,
+};
+
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("sqlx error: {0}")]
@@ -6,15 +10,21 @@ pub enum Error {
     #[error("builder paramas error: {0}")]
     BuilderParamsError(String),
 
-    #[error("tonic status: {0}")]
-    TonicStatus(#[from] tonic::Status),
+    #[error("supermemo2 error: {0}")]
+    Supermemo2Error(#[from] supermemo2::Error),
 
-    #[error("tonic error: {0}")]
-    TonicError(#[from] tonic::transport::Error),
+    #[error("chrono parse error: {0}")]
+    ChronoParaseError(#[from] chrono::ParseError),
 }
 
-impl From<abi::LearnWordQueryBuilderError> for Error {
-    fn from(e: abi::LearnWordQueryBuilderError) -> Self {
-        Self::BuilderParamsError(e.to_string())
+impl From<LearnWordQueryBuilderError> for Error {
+    fn from(e: LearnWordQueryBuilderError) -> Self {
+        Error::BuilderParamsError(e.to_string())
+    }
+}
+
+impl From<WordListQueryBuilderError> for Error {
+    fn from(e: WordListQueryBuilderError) -> Self {
+        Error::BuilderParamsError(e.to_string())
     }
 }
