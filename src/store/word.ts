@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { invoke } from "@tauri-apps/api";
+import { message } from 'ant-design-vue';
 
 export const useWordStore = defineStore('word', {
     state: () => {
@@ -7,8 +8,8 @@ export const useWordStore = defineStore('word', {
             id: number;
             person: string;
             content: string;
-            date: Date;
-            uuid: string;
+            created_at: Date;
+            updated_at: Date;
         }
         interface reviewWrod {
             id: number;
@@ -25,6 +26,8 @@ export const useWordStore = defineStore('word', {
             reviewWords: [] as reviewWrod[],
             // dialog array
             wordDialogs: [] as Dialog[],
+            // dialog page
+            page: 1,
         }
     },
     // 计算属性
@@ -56,137 +59,23 @@ export const useWordStore = defineStore('word', {
                 this.getReviewWords(word.next_learn_at);
             });
         },
+        async loadDialogs() {
+            invoke("get_dialogs", { page: this.page, size: 20 }).then((res: any) => {
+                console.log("get_dialogs", res);
+                if (res.data.length > 0) {
+                    // revert data
+                    let tmp = this.wordDialogs;
+                    this.wordDialogs = [];
+                    this.wordDialogs.push(...res.data.reverse());
+                    this.wordDialogs.push(...tmp);
+                    this.page++;
+                } else {
+                    message.warning("没有更多数据了");
+                }
+            });
+        },
         // init用于初始化数据，比如从后端获取数据
-        init() {
-            this.wordDialogs = [
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orio",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orio",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orio",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orio",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-                {
-                    id: 1,
-                    person: "orion",
-                    content: "hello",
-                    date: new Date(),
-                    uuid: "123",
-                },
-            ]
-        }
+        init() { }
     }
 
 })

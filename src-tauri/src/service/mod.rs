@@ -57,12 +57,12 @@ pub async fn add_review_word(
 }
 
 #[tauri::command]
-pub async fn get_dialog(
+pub async fn get_dialogs(
     conn: State<'_, DbConnection>,
-    size: u32,
-    number: u32,
+    page: u32, // page number
+    size: u32, // page size
 ) -> Result<Response<Vec<Dialog>>, ()> {
-    match conn.get_dialog(size, number).await {
+    match conn.get_dialogs(size, page).await {
         Ok(dialogs) => wrap_success_response("success".to_string(), Some(dialogs)),
         Err(e) => wrap_failed_response(e.to_string(), None),
     }

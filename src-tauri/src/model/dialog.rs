@@ -19,15 +19,15 @@ impl DbConnection {
         Ok(())
     }
 
-    pub async fn get_dialog(
+    pub async fn get_dialogs(
         &self,
         page_size: u32,
         page_num: u32,
     ) -> Result<Vec<Dialog>, errors::Error> {
         let sql = format!(
             "SELECT * FROM dialog ORDER BY id DESC LIMIT {}, {}",
-            page_size * page_num,
-            page_size
+            (page_num - 1) * page_size,
+            (page_num * page_size)
         );
 
         let dialogs: Vec<Dialog> = sqlx::query_as(&sql).fetch_all(&self.conn).await?;

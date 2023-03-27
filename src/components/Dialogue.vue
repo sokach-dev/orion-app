@@ -1,8 +1,8 @@
 <template>
   <div class="dialogue-container">
-    <div class="dialogue">
+    <div class="dialogue" @scroll="onScroll">
       <div v-for="d in wordDialogs" :key="d.id" :class="get_dialogue(d)">
-        <p>{{ d.content }}</p>
+        <p>{{ d.id }} -- {{ d.content }}</p>
       </div>
     </div>
     <div class="input-box">
@@ -23,10 +23,33 @@ export default defineComponent({
   },
   setup() {
     const { wordDialogs } = storeToRefs(useWordStore());
+    var isLoading = false;
 
     onMounted(() => {
-      useWordStore().init();
+      loading();
     });
+
+    const loading = async () => {
+      if (!isLoading) {
+        isLoading = true;
+
+        setTimeout(() => {
+          useWordStore().loadDialogs();
+          isLoading = false;
+        }, 1000);
+      }
+    };
+
+    const onScroll = (e: any) => {
+      const wrapper = document.querySelector(".dialogue");
+      if (wrapper) {
+        if (e.target.scrollTop < -60) {
+          loading();
+        }
+      } else {
+        console.log("wrapper is null");
+      }
+    };
 
     const get_dialogue = (dialogue: any) => {
       if (dialogue.person == "orion") {
@@ -36,7 +59,7 @@ export default defineComponent({
       }
     };
 
-    return { wordDialogs, get_dialogue };
+    return { wordDialogs, get_dialogue, onScroll };
   },
 });
 </script>
@@ -52,6 +75,9 @@ export default defineComponent({
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 20px;
+
+  height: 100vh;
+  overflow-y: auto;
 }
 .speaker1 {
   background-color: #e6ffb3;
