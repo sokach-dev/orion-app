@@ -7,16 +7,17 @@ impl DbConnection {
         &self,
         person: String,
         content: String,
-    ) -> Result<(), errors::Error> {
+    ) -> Result<i64, errors::Error> {
         let sql = format!("INSERT INTO dialog (person, content) VALUES (?, ?)");
 
-        sqlx::query(&sql)
+        let id = sqlx::query(&sql)
             .bind(person)
             .bind(content)
             .execute(&self.conn)
-            .await?;
+            .await?
+            .last_insert_rowid();
 
-        Ok(())
+        Ok(id)
     }
 
     pub async fn get_dialogs(

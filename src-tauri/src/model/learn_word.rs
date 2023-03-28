@@ -23,14 +23,18 @@ impl DbConnection {
     pub async fn add_review_word(&self, word: String) -> Result<(), errors::Error> {
         let brief_word = self.get_brief_word_info(None, Some(word.clone())).await?;
 
+        if brief_word.is_empty() {
+            return Err(errors::Error::WordNotFound(word));
+        }
+
         let after_10_minutes = chrono::Utc::now().naive_utc() + Duration::minutes(10);
         let after_10_minutes = after_10_minutes.format("%Y-%m-%d %H:%M:%S").to_string();
 
-        let sql = "INSERT INTO learn_word (word_id, paraphrase, next_learn_at) VALUES (?, ?, ?)";
+        let sql = "INSERT INTO learn_word (word, paraphrase, next_learn_at) VALUES (?, ?, ?)";
 
         sqlx::query(&sql)
             .bind(word)
-            .bind(brief_word.paraphrase)
+            .bind(brief_word[0].paraphrase.clone())
             .bind(after_10_minutes)
             .execute(&self.conn)
             .await?;

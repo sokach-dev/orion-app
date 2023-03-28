@@ -2,7 +2,7 @@
   <div class="dialogue-container">
     <div class="dialogue" @scroll="onScroll">
       <div v-for="d in wordDialogs" :key="d.id" :class="get_dialogue(d)">
-        <p>{{ d.id }} -- {{ d.content }}</p>
+        <pre>{{ d.id }} -- {{ d.content }}</pre>
       </div>
     </div>
     <div class="input-box">
@@ -43,7 +43,7 @@ export default defineComponent({
     const onScroll = (e: any) => {
       const wrapper = document.querySelector(".dialogue");
       if (wrapper) {
-        if (e.target.scrollTop < -60) {
+        if (e.target.scrollTop < -40) {
           loading();
         }
       } else {
@@ -52,10 +52,10 @@ export default defineComponent({
     };
 
     const get_dialogue = (dialogue: any) => {
-      if (dialogue.person == "orion") {
-        return "speaker2";
+      if (dialogue.person == "me") {
+        return "speaker_right";
       } else {
-        return "speaker1";
+        return "speaker_left";
       }
     };
 
@@ -74,12 +74,13 @@ export default defineComponent({
   background-color: #f2f2f2;
   border-radius: 5px;
   padding: 10px;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
+  // padding-bottom: 50px;
 
   height: 100vh;
   overflow-y: auto;
 }
-.speaker1 {
+.speaker_right {
   background-color: #e6ffb3;
   padding: 10px;
   border-radius: 5px;
@@ -87,7 +88,7 @@ export default defineComponent({
   text-align: right;
 }
 
-.speaker2 {
+.speaker_left {
   background-color: #b3e6ff;
   padding: 10px;
   border-radius: 5px;

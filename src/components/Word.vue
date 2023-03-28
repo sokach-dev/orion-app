@@ -42,6 +42,7 @@ export default defineComponent({
   overflow-y: scroll;
   height: 100vh;
   width: 60%;
+  padding-bottom: 50px;
   background-color: #f0f2e5;
 }
 </style>

@@ -17,6 +17,8 @@ async fn main() {
             service::learn_word,
             service::add_review_word,
             service::get_dialogs,
+            service::add_new_dialog,
+            service::get_vocabulary_info,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

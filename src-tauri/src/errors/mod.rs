@@ -1,5 +1,6 @@
 use crate::model::data_scaffold::{
-    learn_word::LearnWordQueryBuilderError, word_list::WordListQueryBuilderError,
+    learn_word::LearnWordQueryBuilderError, vocabulary::VocabularyQueryBuilderError,
+    word_list::WordListQueryBuilderError,
 };
 
 #[derive(thiserror::Error, Debug)]
@@ -15,6 +16,9 @@ pub enum Error {
 
     #[error("chrono parse error: {0}")]
     ChronoParaseError(#[from] chrono::ParseError),
+
+    #[error("can't find word: {0}")]
+    WordNotFound(String),
 }
 
 impl From<LearnWordQueryBuilderError> for Error {
@@ -25,6 +29,12 @@ impl From<LearnWordQueryBuilderError> for Error {
 
 impl From<WordListQueryBuilderError> for Error {
     fn from(e: WordListQueryBuilderError) -> Self {
+        Error::BuilderParamsError(e.to_string())
+    }
+}
+
+impl From<VocabularyQueryBuilderError> for Error {
+    fn from(e: VocabularyQueryBuilderError) -> Self {
         Error::BuilderParamsError(e.to_string())
     }
 }

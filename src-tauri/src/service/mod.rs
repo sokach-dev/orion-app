@@ -1,5 +1,5 @@
 use crate::model::{
-    data_scaffold::{dialog::Dialog, learn_word::LearnWord},
+    data_scaffold::{dialog::Dialog, learn_word::LearnWord, vocabulary::Vocabulary},
     DbConnection,
 };
 use serde::{Deserialize, Serialize};
@@ -69,6 +69,18 @@ pub async fn get_dialogs(
 }
 
 #[tauri::command]
+pub async fn add_new_dialog(
+    conn: State<'_, DbConnection>,
+    person: String,
+    content: String,
+) -> Result<Response<i64>, ()> {
+    match conn.add_new_dialog(person, content).await {
+        Ok(id) => wrap_success_response("success".to_string(), Some(id)),
+        Err(e) => wrap_failed_response(e.to_string(), None),
+    }
+}
+
+#[tauri::command]
 pub async fn learn_word(
     conn: State<'_, DbConnection>,
     id: i64,      // word_id
@@ -78,6 +90,18 @@ pub async fn learn_word(
 ) -> Result<Response<()>, ()> {
     match conn.learn_word(id, count, next, status).await {
         Ok(_) => wrap_success_response("success".to_string(), None),
+        Err(e) => wrap_failed_response(e.to_string(), None),
+    }
+}
+
+#[tauri::command]
+pub async fn get_vocabulary_info(
+    conn: State<'_, DbConnection>,
+    word_id: Option<i64>,
+    word: Option<String>,
+) -> Result<Response<Vec<Vocabulary>>, ()> {
+    match conn.get_vocabulary_info(word_id, word).await {
+        Ok(words) => wrap_success_response("success".to_string(), Some(words)),
         Err(e) => wrap_failed_response(e.to_string(), None),
     }
 }

@@ -10,7 +10,7 @@ impl DbConnection {
         &self,
         word_id: Option<i64>,
         word: Option<String>,
-    ) -> Result<WordList, errors::Error> {
+    ) -> Result<Vec<WordList>, errors::Error> {
         let q = WordListQueryBuilder::default()
             .id(word_id)
             .word(word)
@@ -18,8 +18,8 @@ impl DbConnection {
 
         let sql = format!("SELECT * FROM word_list {}", q.to_sql_condition());
 
-        let word: WordList = sqlx::query_as(&sql).fetch_one(&self.conn).await?;
+        let words: Vec<WordList> = sqlx::query_as(&sql).fetch_all(&self.conn).await?;
 
-        Ok(word)
+        Ok(words)
     }
 }

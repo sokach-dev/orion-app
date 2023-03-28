@@ -29,13 +29,14 @@
 import { computed, defineComponent, ref } from "vue";
 import { RocketOutlined } from "@ant-design/icons-vue";
 import { message } from "ant-design-vue";
+import { useWordStore } from "../store/word";
 
 const MOCK_DATA: Record<string, any[]> = {
   "/": [
-    { order: "/nd", commit: "添加新单词" },
-    { order: "/qd", commit: "查询单词" },
-    { order: "/sd", commit: "开始复习" },
-    { order: "/dd", commit: "删除单词" },
+    { order: "/nw", commit: "添加新单词" },
+    { order: "/qw", commit: "查询单词" },
+    { order: "/fx", commit: "开始复习" },
+    { order: "/dw", commit: "删除单词" },
   ],
 };
 export default defineComponent({
@@ -71,10 +72,10 @@ export default defineComponent({
           message.error("无法识别的指令");
           return;
         }
-        // go to order
+        // TODO go to order
+        useWordStore().dealOrder(order, word);
       } else {
-        // TODO
-        // record content
+        useWordStore().addDialog("me", content.value);
       }
 
       content.value = "";
