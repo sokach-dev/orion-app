@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { invoke } from "@tauri-apps/api";
 import { message } from 'ant-design-vue';
 import { getCustomDate } from "../utils";
+// import { Mdict } from "js-mdict";
 
 export const useWordStore = defineStore('word', {
     state: () => {
@@ -31,6 +32,7 @@ export const useWordStore = defineStore('word', {
             page: 1,
             // dialog 
             dialog: {} as Dialog,
+            // dict: new Mdict("../assets/TLD.mdx"),
         }
     },
     // 计算属性
@@ -128,6 +130,9 @@ export const useWordStore = defineStore('word', {
             }
 
         },
+        // async queryDict(word: string) {
+        //     console.log(this.dict.lookup(word));
+        // },
         // init用于初始化数据，比如从后端获取数据
         init() { }
     }
